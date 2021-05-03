@@ -1,0 +1,48 @@
+﻿@page "/todo"
+
+@using Data
+
+<h3>Todo (@TodoList.Count(x=>!x.IsDone))</h3>
+
+<ul>
+    @foreach (var item in TodoList)
+    {
+        <li>
+            <input type="checkbox" @bind="item.IsDone" />
+            <span>@item.Title</span>
+        </li>
+    }
+</ul>
+
+<input placeholder="输入新待办事项标题" @bind="AddTitle" />
+<button @onclick="AddToDoItem">新建</button>
+
+@code {
+
+    /// <summary>
+    /// 待办事项列表
+    /// </summary>
+    /// <value></value>
+    public List<TodoItem> TodoList { get; set; } = new List<TodoItem>();
+
+    /// <summary>
+    /// 新增待办项标题
+    /// </summary>
+    /// <value></value>
+    public string AddTitle { get; set; }
+
+    /// <summary>
+    /// 添加待办事项
+    /// </summary>
+    public void AddToDoItem()
+    {
+        if(!string.IsNullOrEmpty(AddTitle))
+        {
+            var todoItem = new TodoItem {
+                Title = AddTitle
+            };
+            TodoList.Add(todoItem);
+            AddTitle = string.Empty;
+        }
+    }
+}
